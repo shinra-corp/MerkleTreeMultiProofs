@@ -180,10 +180,10 @@ Conceptually we can think as something in the line of:
  
 [ A ; B ; C ; D ; E ; F ; # ; i1 ; i2 ; i3 ; i4; …]
  
-The user should also give a generalized index order operation array, GIOT for friends.
-The GIOT is nothing more than the indexes in the generalized form for each element in the input array.
+The user should also give a generalized index order operation array, GIOP for friends.
+The GIOP is nothing more than the indexes in the generalized form for each element in the input array.
  
-We don't need all the GIOT information about the leaves, we know that for each leaf there is always a sibling. So we don't include the sibling index.
+We don't need all the GIOP information about the leaves, we know that for each leaf there is always a sibling. So we don't include the sibling index.
  
 Conceptually we can think as something in the line of:
 [10 ; 12 ; 4 ; 5]
@@ -200,7 +200,7 @@ We can locale the parent generalized index position by : p = FLOOR( i-1 / 2)
  
 We save this information to use later in the next level.
  
-Second step we calculate all the intermediate nodes with the given information and the result of step one. We continue this step until we go through all the GIOT elements.
+Second step we calculate all the intermediate nodes with the given information and the result of step one. We continue this step until we go through all the GIOP elements.
  
  
 In the third step we find the branch we don't have calculated, we know that is or in index 1 or 2. Lastly we return the root to the caller.
