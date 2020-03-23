@@ -2,7 +2,7 @@
  
 Library that implements a selected multi proof system with Merkle Tree.
  
-Objective
+## Objective
  
 Deploy on chain a tool that helps smart contract developers to incorporate a merkle tree functionality with the possibility of selecting a subset of proofs in opposition of giving all the proofs.
  
@@ -14,11 +14,10 @@ The general idea is to have a Merkle Tree capable of generating the correct root
 The user should review there's proof requirements before using this tool.
 The ideal case is when we have 2^n leafs. If there is less of that number, the user can fill the leafs with dumb data, and make the approprieted changes.
  
-Important
+## Important
 Understanding the reconstructing algorithm will allow the user to make better choices on the tree itself, feeding the system with a tree which is more efficient to calculate.
  
- 
-Context
+## Context
  
 Merkle tree is a data structure that calculates each node value by hashing the values of two subnodes. If you don't know much about Merkle Tree please refer to : XXXX to get the basic idea.
  
@@ -34,7 +33,7 @@ This library aims to implement that functionality in a way that is useful to a l
  
  
  
-To clarify the terminology used in this document:
+### To clarify the terminology used in this document:
  
 Proof is something you submit as a secret to the system, normally in the form of a hash value.
 Reveal is something you submit so the system can check (hash it and compare) against the Proof.
@@ -152,12 +151,12 @@ As you can see, instead of passing the 16 leaves we are passing 4 leaves + 4 int
  
  
  
-Why are generalized indexes important?
+## Why are generalized indexes important?
  
 They are important because they let the code localized each individual nodes. You can think as a coordination system for Trees.
  
  
-So I only need to send the data of the leaves and nodes and I'm done?
+## So I only need to send the data of the leaves and nodes and I'm done?
  
 No, you have also to provide the Generalized Index of each point of data you are giving to the function. We call that information GIOP, Generalized Index - Order Operation. This information serve two purposes:
  
@@ -169,7 +168,7 @@ The GIOP of each node is important but also the order that you construct the arr
  
  
  
-General idea of the reconstruction is split in three steps.
+## General idea of the reconstruction is split in three steps.
  
 The user call the function giving a input array that follow a predefined rule:
  
@@ -194,7 +193,7 @@ Note that the order is in relation to the level (heights) of the tree. We don’
  
  
  
-Steps:
+## Steps:
  
 The first step of the process is hashing all the pairs of leafs in the first part of the array.
 We can locale the parent generalized index position by : p = FLOOR( i-1 / 2)
@@ -210,7 +209,7 @@ In the third step we find the branch we don't have calculated, we know that is o
  
  
  
-Formulas and observations:
+### Formulas and observations:
  
 Find the parent generalized index : p = FLOOR( i-1 / 2)
 Find left / right child : LEFT : 2k +1 ; RIGHT : 2k + 2
