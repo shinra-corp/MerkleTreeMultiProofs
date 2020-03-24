@@ -195,7 +195,7 @@ The GIOP of each node is important but also the order that you construct the arr
  
  
  
-## General idea of the reconstruction is split in three steps.
+## General idea of the reconstruction can be splited in three steps.
  
 The user call the function giving a input array that follow a predefined rule:
  
@@ -231,32 +231,38 @@ Note that the order is in relation to the level (heights) of the tree. We don’
  
  
 ## Steps:
- 
+
+### First: Process all leaves by hashing each pair
+
 The first step of the process is hashing all the pairs of leafs in the first part of the array.
 We can locale the parent generalized index position by : p = FLOOR( i-1 / 2)
  
 We save this information to use later in the next level.
+
+### Second: Calculate intermediate nodes
  
 Second step we calculate all the intermediate nodes with the given information and the result of step one. We continue this step until we go through all the GIOP elements.
  
+### Third: Calculate the last branch and return root to caller
  
 In the third step we find the branch we don't have calculated, we know that is or in index 1 or 2. Lastly we return the root to the caller.
  
+  
  
  
+## Formulas and observations:
+
+### Using the Generalized index
  
- 
-### Formulas and observations:
- 
-Find the parent generalized index : p = FLOOR( i-1 / 2)
-Find left / right child : LEFT : 2k +1 ; RIGHT : 2k + 2
+Find the parent with generalized index : p = FLOOR( i-1 / 2)
+
+Find left / right child : LEFT : 2k + 1 ; RIGHT : 2k + 2
  
 The depth of the tree is the number of steps from root to leaf.
  
-The tree must have this requirements:
+## The tree must have this requirements:
  
 Must be a FULL COMPLETE BINARY TREE (leaves are 2, 4, 8, 16, 32, etc...)
- 
  
 Note: From a parent node the left child is always an odd index number and the right is always an even number.
  
