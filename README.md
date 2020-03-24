@@ -126,9 +126,6 @@ Let's see one example to make thing more clear:
 ```mermaid
  
 graph TD
- 
- 
- 
  root:::calculation --> | 1 | abcd/efgh:::calculation
  root --> | 2 | ijkl/mnop:::calculation
  abcd/efgh --> | 3 | ab/cd:::calculation
@@ -266,6 +263,57 @@ Must be a FULL COMPLETE BINARY TREE (leaves are 2, 4, 8, 16, 32, etc...)
  
 Note: From a parent node the left child is always an odd index number and the right is always an even number.
 
+
+
+## From client Perspective (Example)
+
+### Let go with the graph show before
+
+```mermaid
+ 
+graph TD
+ root:::calculation --> | 1 | abcd/efgh:::calculation
+ root --> | 2 | ijkl/mnop:::calculation
+ abcd/efgh --> | 3 | ab/cd:::calculation
+ abcd/efgh --> | 4 | ef/gh:::intermedian
+ ijkl/mnop --> | 5 | ij/kl:::intermedian
+ ijkl/mnop --> | 6 | mn/op:::calculation
+ 
+ ab/cd --> | 7 | a/b:::calculation
+ ab/cd --> | 8 | c/d:::intermedian
+ ef/gh --> | 9 | e/f
+ ef/gh --> | 10 | g/h
+ ij/kl --> | 11 | i/j
+ ij/kl --> | 12 | k/l
+ mn/op --> | 13 | m/n:::calculation
+ mn/op --> | 14 | o/p:::intermedian
+ 
+ a/b --> | 15 | a:::proof
+ a/b --> | 16 | b:::proof
+ c/d --> | 17 | c
+ c/d --> | 18 | d
+ e/f --> | 19 | e
+ e/f --> | 20 | f
+ g/h --> | 21 | g
+ g/h --> | 22 | h
+ i/j --> | 23 | i
+ i/j --> | 24 | j
+ k/l --> | 25 | k
+ k/l --> | 26 | l
+ m/n --> | 27 | m:::proof
+ m/n --> | 28 | n:::proof
+ o/p --> | 29 | o
+ o/p --> | 30 | p
+ 
+ classDef proof fill:#f9f,stroke:#333,stroke-width:1px;
+ classDef intermedian fill:#8fc,stroke:#333,stroke-width:1px;
+ classDef calculation fill:#ed5,stroke:#333,stroke-width:1px;
+ 
+ ```
+
+ The node array should be like:
+
+ [a, b, m, n, #, c/d, o/p, ef/gh, ij/kl]
 
 
 References:
