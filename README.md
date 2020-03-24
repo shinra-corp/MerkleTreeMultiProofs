@@ -315,6 +315,9 @@ graph TD
 
  [a, b, m, n, #, c/d, o/p, ef/gh, ij/kl]
 
+The GIOP array should be like
+
+[15, 27, 8, 14, 4, 5]
 
 References:
 
