@@ -9,12 +9,14 @@ Deploy on chain a tool that helps smart contract developers to incorporate a mer
 The library calculates the root of the tree based on the information given.
 That information is split in two arrays that we will define below.
  
-The general idea is to have a Merkle Tree capable of generating the correct root given a subset of leafs and all the intermediary nodes values necessary.
+The general idea is to have a Merkle Tree capable of generating the correct root given a subset of leafs and all the necessary intermediary nodes values.
  
-The user should review there's proof requirements before using this tool.
+The user should review there's proof requirements before using this tool. 
+
 The ideal case is when we have 2^n leafs. If there is less of that number, the user can fill the leafs with dumb data, and make the approprieted changes.
  
 ## Important
+
 Understanding the reconstructing algorithm will allow the user to make better choices on the tree itself, feeding the system with a tree which is more efficient to calculate.
  
 ## Context
@@ -29,24 +31,49 @@ If you have to submit all the leaves to calculate the root, you are bound to tha
 Merkle Tree by itself is a multi part proof system, here you can select some leafs to "prove" and give the intermediate node values as needed.
  
 This library aims to implement that functionality in a way that is useful to a large use case and at the same time don't be very opinionated about the proof that you are trying to make.
+
+
+## Generalized Index
+
+Coordenation system that can help when we need to specify one node or leaf.
+
+Start from the top of the tree and set the root as zero (0), then top / botton increment that index value by 1 until all nodes and leaves are enumerated
+
+    
+```mermaid
+graph TD
+ 
+ root --> | 1 | a/b
+ root --> | 2 | c/d
+ 
+ a/b --> | 3 | a
+ a/b --> | 4 | b
+ c/d --> | 5 | c
+ c/d --> | 6 | d
+ 
+ ```
  
  
+## To clarify the terminology used in this document:
+ 
+* Proof is something you submit as a secret to the system, normally in the form of a hash value.
+
+* Reveal is something you submit so the system can check (hash it and compare) against the Proof.
+
+* These two sets are commonly known as a commit / reveal scheme. First you commit to something, then you reveal that something. 
+
+* A leaf is a node that doesn't have children. Is the bottom of the tree.
+
+* A root is the upper node, Is the top of the tree.
+
+* A binary tree is when each node has only two childs, not counting the last ones (leaves).
+
+* A complete binary tree is when each node have two children, minus the leaves. All nodes are organized top / bottom, and left to right.
+
+* A full binary tree is when you have a tree that is complete and the leaves are also completed. You don't have missing leaves.
  
  
-### To clarify the terminology used in this document:
- 
-Proof is something you submit as a secret to the system, normally in the form of a hash value.
-Reveal is something you submit so the system can check (hash it and compare) against the Proof.
- 
-These two sets are commonly known as a commit / reveal scheme. First you commit to something, then you reveal that something.
- 
-A leaf is a node that doesn't have children. Is the bottom of the tree.
-A root is the upper node, Is the top of the tree.
- 
-A binary tree is when each node has only two childs, not counting the last ones (leaves).
- 
- 
-## A Tree with the generalized index from root to leafs.
+## A Full Complete Binary Tree with the generalized index from root to leafs.
  
 ```mermaid
 graph TD
@@ -135,9 +162,9 @@ graph TD
  o/p --> | 29 | o
  o/p --> | 30 | p
  
- classDef proof fill:#f9f,stroke:#333,stroke-width:4px;
- classDef intermedian fill:#8fc,stroke:#333,stroke-width:4px;
- classDef calculation fill:#ed5,stroke:#333,stroke-width:4px;
+ classDef proof fill:#f9f,stroke:#333,stroke-width:1px;
+ classDef intermedian fill:#8fc,stroke:#333,stroke-width:1px;
+ classDef calculation fill:#ed5,stroke:#333,stroke-width:1px;
  
  ```
  
@@ -177,13 +204,23 @@ First elements of the array are the leaves that the user wants to proof, after t
 The BLANK SYMBOL is only the # = Keccak(0). This value is considered a reserved work.
  
 Conceptually we can think as something in the line of:
+
  
 [ A ; B ; C ; D ; E ; F ; # ; i1 ; i2 ; i3 ; i4; …]
+
+Where
+
+A to F are leaves
+
+\# is the BLANK POINT
+
+i1 to in are the intermedian nodes
+
  
 The user should also give a generalized index order operation array, GIOP for friends.
 The GIOP is nothing more than the indexes in the generalized form for each element in the input array.
  
-We don't need all the GIOP information about the leaves, we know that for each leaf there is always a sibling. So we don't include the sibling index.
+### We don't need all the GIOP information about the leaves, we know that for each leaf there is always a sibling. So we don't include the sibling index.
  
 Conceptually we can think as something in the line of:
 [10 ; 12 ; 4 ; 5]
