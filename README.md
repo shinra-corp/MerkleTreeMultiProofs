@@ -21,7 +21,7 @@ Understanding the reconstructing algorithm will allow the user to make better ch
  
 ## Context
  
-Merkle tree is a data structure that calculates each node value by hashing the values of two subnodes. If you don't know much about Merkle Tree please refer to : XXXX to get the basic idea.
+Merkle tree is a data structure that calculates each node value by hashing the values of two subnodes. If you don't know much about Merkle Tree please refer to : [article](https://medium.com/hackernoon/merkle-trees-181cb4bc30b4) and [wikipidia](https://en.wikipedia.org/wiki/Merkle_tree) to get an basic idea.
  
 The main point of using a Merkle Tree is data integrity checks. You can recalculate the tree from the leaves (most bottom nodes) until the root (most upper node) and check if the data was temper in the same way.
  
@@ -265,7 +265,11 @@ The depth of the tree is the number of steps from root to leaf.
 Must be a FULL COMPLETE BINARY TREE (leaves are 2, 4, 8, 16, 32, etc...)
  
 Note: From a parent node the left child is always an odd index number and the right is always an even number.
- 
- 
- 
+
+
+
+References:
+
+* [generalized-merkle-tree-index](https://github.com/ethereum/eth2.0-specs/blob/dev/ssz/merkle-proofs.md#generalized-merkle-tree-index)
+* [ERC2429](https://gitlab.com/status-im/docs/EIPs/blob/secret-multisig-recovery/EIPS/eip-2429.md) 
 
