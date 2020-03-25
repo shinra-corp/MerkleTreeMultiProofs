@@ -1,13 +1,22 @@
 pragma solidity ^0.6.0 <0.7.0;
 
+/*
+    This Library is the extended version, with many comments.
+*/
+
 library MerkleTreeGenIndex {
 
+    // Define the reserved word as BLANK_POINT to be the hash of 0
     bytes32 constant BLANK_POINT = keccak256(abi.encodePacked(uint256(0)));
 
+    // The caller should have this struct so we can save information to compute later
     struct Data {
         mapping(uint256 => bytes32) ram;
     }
 
+
+
+    // The only function of this library. The caller should organize the data as define in the EIP XXXX and call this method.
     function getRoot(
         Data storage self,
         bytes32[] memory nodes,
@@ -22,6 +31,12 @@ library MerkleTreeGenIndex {
         uint256 index;
         uint256 parentId;
 
+
+        //Note that we are not using a for loop, because of clarity and also we need the index to be the same in next loop.
+
+        /*
+                STEP 1
+        */
         //Lets generate the node for each pair given, until find blank point
         //Loop leafs until find BLANK_POINT or complete the array
         while(index < nodes.length) {
@@ -35,6 +50,10 @@ library MerkleTreeGenIndex {
             }
         }
 
+
+        /*
+            STEP 2
+        */
         //Main work for generating all the intermedian nodes
         while(index < giop.length) {
             parentId = (giop[giop_pointer] - 1) / 2;
@@ -56,6 +75,9 @@ library MerkleTreeGenIndex {
             giop_pointer += 1;
         }
 
+        /*
+            STEP 3
+        */
         //Calculate root with data
         //if last parent is even then we are at the right side of the tree
         if(parentId % 2 == 0) {
@@ -69,6 +91,7 @@ library MerkleTreeGenIndex {
                 abi.encodePacked(self.ram[2 * parentId + 1], self.ram[2 * parentId + 2])
             );
 
+        //calculate the root and return to caller
         return keccak256(abi.encodePacked(self.ram[1], self.ram[2]));
     }
 }
