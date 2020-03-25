@@ -56,8 +56,10 @@ library MerkleTreeGenIndex {
         */
         //Main work for generating all the intermedian nodes
         while(index < giop.length) {
+            //get the GIOP give by user, and calculate the parent ID of that node
             parentId = (giop[giop_pointer] - 1) / 2;
 
+            // The order of hashing is important so we can calculate the same root
             if(giop[giop_pointer] % 2 == 0) {
                 self.ram[giop[parentId]] = keccak256(
                     abi.encodePacked(self.ram[giop[giop_pointer] - 1], nodes[index])
@@ -79,7 +81,7 @@ library MerkleTreeGenIndex {
             STEP 3
         */
         //Calculate root with data
-        //if last parent is even then we are at the right side of the tree
+        //if last parent is even then we are at the right side of the tree, we check this so we can hash in the correct order
         if(parentId % 2 == 0) {
             parentId = parentId - 1;
         } else {
