@@ -11,13 +11,15 @@ That information is split in two arrays that we will define below.
  
 The general idea is to have a Merkle Tree capable of generating the correct root given a subset of leafs and all the necessary intermediary nodes values.
  
-The user should review there's proof requirements before using this tool. 
+The user should review there's proof requirements before using this tool.
 
 The ideal case is when we have 2^n leafs. If there is less of that number, the user can fill the leafs with dumb data, and make the approprieted changes.
  
 ## Important
 
 Understanding the reconstructing algorithm will allow the user to make better choices on the tree itself, feeding the system with a tree which is more efficient to calculate.
+
+You should sort your leaves so that when you are validation with this library you have less computation requirements and save some GAS.
  
 ## Context
  
@@ -25,10 +27,15 @@ Merkle tree is a data structure that calculates each node value by hashing the v
  
 The main point of using a Merkle Tree is data integrity checks. You can recalculate the tree from the leaves (most bottom nodes) until the root (most upper node) and check if the data was temper in the same way.
  
-We have the same libraries in solidity that implement this basic use case, but they have a problem of scale.
+We have the same libraries in solidity that implement this basic use case, but they have a problem of scale. The biggest problem is that to validate a tree root you have to submit all the leaves.
+
 If you have to submit all the leaves to calculate the root, you are bound to that limit. If you have a tree with 32 leaves, than you have to commit all the 32 leaves.
+
+By using a coordenation system as the Generalized Index, we can selective choose each leaf to be part of the computation. This is the natural usage of a Merkle Tree.
+
+By having this capacity of selection we can construct one tree that can represent many proof system.
  
-Merkle Tree by itself is a multi part proof system, here you can select some leafs to "prove" and give the intermediate node values as needed.
+Merkle Tree by itself is a multi part proof system, here you can select some leafs to "prove" and give the intermediate node values as needed. We will see with more detail below that this means.
  
 This library aims to implement that functionality in a way that is useful to a large use case and at the same time don't be very opinionated about the proof that you are trying to make.
 
@@ -60,7 +67,7 @@ graph TD
 
 * Reveal is something you submit so the system can check (hash it and compare) against the Proof.
 
-* These two sets are commonly known as a commit / reveal scheme. First you commit to something, then you reveal that something. 
+* These two sets are commonly known as a commit / reveal scheme. First you commit to something, then you reveal that something.
 
 * A leaf is a node that doesn't have children. Is the bottom of the tree.
 
@@ -322,5 +329,5 @@ The GIOP array should be like
 References:
 
 * [generalized-merkle-tree-index](https://github.com/ethereum/eth2.0-specs/blob/dev/ssz/merkle-proofs.md#generalized-merkle-tree-index)
-* [ERC2429](https://gitlab.com/status-im/docs/EIPs/blob/secret-multisig-recovery/EIPS/eip-2429.md) 
+* [ERC2429](https://gitlab.com/status-im/docs/EIPs/blob/secret-multisig-recovery/EIPS/eip-2429.md)
 
